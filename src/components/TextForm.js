@@ -34,11 +34,8 @@ export default function TextForm(props) {
         props.showAlert("ExtraSpace has been removed.", "success")
     }
     const handleCopy = () => {
-        let text = document.getElementById("textBox");
-        text.select();
-        navigator.clipboard.writeText(text.value);
-        document.getSelection().removeAllRanges();
-        props.showAlert("Text Copied.", "success")
+        navigator.clipboard.writeText(text);
+        props.showAlert("Text Copied to Clipboard.", "success")
     }
     const handleClearText = () => {
         let newText = ""
@@ -54,7 +51,7 @@ export default function TextForm(props) {
             <div className="container" style={{ color: props.mode === 'dark' ? 'white' : 'black' }}>
                 <div className="mb-3">
                     <h2>{props.heading}</h2>
-                    <textarea className="form-control" style={{ backgroundColor: props.mode === 'dark' ? '#13466e' : 'white', color: props.mode === 'dark' ? 'white' : 'black' }} onChange={handleOnChange} value={text} placeholder="Enter your text here..." id="textBox" rows="6"></textarea>
+                    <textarea className="form-control" style={{ backgroundColor: props.mode === 'dark' ? '#13466e' : 'white', color: props.mode === 'dark' ? 'white' : 'black' }} onChange={handleOnChange} value={text} placeholder="Enter your text here..." rows="6"></textarea>
                 </div>
                 <button disabled={text.length === 0} className="btn btn-primary m-1 p-1 mx-1" onClick={handleUpperCase} >Convert to UpperCase</button>
                 <button disabled={text.length === 0} className="btn btn-primary m-1 p-1 mx-1" onClick={handleLowerCase} >Convert to LowerCase</button>
@@ -66,7 +63,7 @@ export default function TextForm(props) {
             </div>
             <div className="container my-3" style={{ color: props.mode === 'dark' ? 'white' : 'black' }}>
                 <h2>Your Text Summary:</h2>
-                <p>{text.split(" ").filter((element) => { return element.length !== 0 }).length} words and {text.length} characters.</p>
+                <p>{text.split(/\s+/).filter((element) => { return element.length !== 0 }).length} words and {text.length} characters.</p>
                 <p>Time required to read the text: {0.008 * text.split(" ").filter((element) => { return element.length !== 0 }).length}</p>
             </div>
             <div className="container my-3" style={{ color: props.mode === 'dark' ? 'white' : 'black' }}>
